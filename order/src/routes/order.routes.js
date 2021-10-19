@@ -10,8 +10,10 @@ router.get('/', orderCtrl.getOrder);
 //router.post('/', upload.single('file'), orderCtrl.createOrder);
 router.post('/', upload.array('files'), orderCtrl.createOrder);
 
+router.get('/:orderId', orderCtrl.getOrderById);
+
 router.put('/', orderCtrl.updateOrderById);
  
-router.delete('/:contactsId', orderCtrl.deleteOrderById);
+router.delete('/:orderId', orderCtrl.deleteOrderById);
 
 export default router;

@@ -60,7 +60,11 @@ export const getOrder = async (req, res) => {
     })
     res.status(200).json(updateOrder)
  }
-
+ export const getOrderById = async (req, res) => {
+   
+    const order = await Order.findById(req.params.orderId);
+        res.status(200).json(order);
+}
 
 
 export const deleteOrderById =  async (req, res) => {
