@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express/index.js';
 import upload from '../helpers/filehelper.js'
 const router = Router()
 
@@ -13,7 +13,7 @@ router.post('/', upload.array('files'), orderCtrl.createOrder);
 router.get('/:orderId', orderCtrl.getOrderById);
 
 router.put('/', orderCtrl.updateOrderById);
- 
+
 router.delete('/:orderId', orderCtrl.deleteOrderById);
 
 export default router;
