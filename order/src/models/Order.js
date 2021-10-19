@@ -7,16 +7,13 @@ const orderSchema = new mongo.Schema({
     nameorder:String,
     nameprovider: String,
     date: String,
-    matricula:String,
-    Facturas:String,
-    Albaranes:String,
-    Comprobantes:String,
-    referencia:String,
+    enrollment:String,
+    reference:String,
     quantity:String,
     price:String,
-    descuento:String,
+    discount:String,
     nameid:String,
-    
+    files:[Object]
 }, {
     timestamps:true,
     versionKey:false

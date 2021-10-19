@@ -11,5 +11,5 @@ mongoose.connect('mongodb://localhost:27017/lunadb',{
 })
    
    
-  .then(db => console.log('db lunamovil vps is conneted'))
+  .then(db => console.log('db lunamovil vps is conneted from order'))
   .catch (error => console.log(error))
