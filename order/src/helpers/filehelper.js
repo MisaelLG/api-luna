@@ -1,5 +1,5 @@
-import multer from "multer";
-import path from 'path';
+const multer = require('multer')
+const path = require('path')
 import { v4 as uuidv4 } from 'uuid';
 
 const storage = multer.diskStorage({
