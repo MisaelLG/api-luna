@@ -2,9 +2,10 @@ import express from "express/index.js";
 
 const app = express();
 
+import oderRouter from "./routes/order.routes.js";
 
-import oderRouter from './routes/order.routes.js'
+app.use(express.json());
 
-app.use('/', oderRouter)
+app.use("/order", oderRouter);
 
 export default app;

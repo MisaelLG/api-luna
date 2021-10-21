@@ -1,0 +1,12 @@
+###
+
+//Get contacts
+GET http://localhost:3000/api/contacts
+
+###
+
+POST http://localhost:3000/api/contacts
+Content-Type: application/json
+{
+    "name": "Misael"
+}

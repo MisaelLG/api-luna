@@ -1,15 +1,14 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 //204.93.167.112
 
-mongoose.connect('mongodb://localhost:27017/lunadb',{
+mongoose
+  .connect("mongodb://localhost:27017/lunadb", {
     useNewUrlParser: true,
-    useUnifiedTopology:true,
-    // useFindAndModify:true,
-    // useCreateIndex:true
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    //useCreateIndex: true,
+  })
 
-})
-   
-   
-  .then(db => console.log('db lunamovil vps is conneted from order'))
-  .catch (error => console.log(error))
+  .then((db) => console.log("db lunamovil vps is conneted from order"))
+  .catch((error) => console.log(error));

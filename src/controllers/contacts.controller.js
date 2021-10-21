@@ -34,7 +34,7 @@ export const getContactsById = async (req, res) => {
 }
 export const updateContactsById = async (req, res) => {
 
-  const updateContatc =  await Contacts.findByIdAndUpdate(req.params, req.body,{
+  const updateContatc =  await Contacts.findByIdAndUpdate(req.params.contactsId , req.body,{
       new: true
   })
   res.status(200).json(updateContatc)
