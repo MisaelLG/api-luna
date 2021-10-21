@@ -1,4 +1,4 @@
-const mongo = require('mongoose');
+import mongo from "mongoose";
 
 
 // Define Schema

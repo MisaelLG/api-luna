@@ -2,7 +2,7 @@ import express from "express";
 import path from 'path';
 import multer from "multer";
 import morgan  from 'morgan'
-//import { createRoles } from "./libs/initialSetup.js";
+import { createRoles } from "./libs/initialSetup.js";
 import { v4 as uuidv4 } from 'uuid';
 
     
