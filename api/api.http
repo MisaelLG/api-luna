@@ -8,5 +8,16 @@ GET http://localhost:3000/api/contacts
 POST http://localhost:3000/api/contacts
 Content-Type: application/json
 {
-    "name": "Misael"
+    "name": "Misael",
+    "phone": "0000",
+    "email": "Misael@gmail.com",
+    "location": "Alguna parte",
 }
+
+###
+
+GET http://localhost:3000/api/contacts/id
+
+###
+
+DELETE http://localhost:3000/api/contacts/id

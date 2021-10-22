@@ -1,56 +1,92 @@
-import User from '../models/User.js';
-import Role from '../models/Role.js';
-import jwt from 'jsonwebtoken';
-import config from '../config.js'
+import User from "../models/User.js";
+import Role from "../models/Role.js";
+import jwt from "jsonwebtoken";
+import config from "../config.js";
 
+export const signUp = async (req, res) => {
+  const { username, email, password, roles } = req.body;
 
-export const signUp = async (req, res) =>{
+  const newUser = new User({
+    username,
+    email,
+    password: await User.encryptPassword(password),
+  });
 
+  if (roles) {
+    const foundRoles = await Role.find({ name: { $in: roles } });
+    newUser.roles = foundRoles.map((role) => role._id);
+  } else {
+    const role = await Role.findOne({ name: "user" });
+    newUser.roles = [role._id];
+  }
 
-    const {username, email, password, roles} = req.body;
+  const savedUser = await newUser.save();
+  console.log(savedUser);
 
-    const newUser =  new User({
-        username,
-        email,
-        password: await User.encryptPassword(password)
-    })
-    
-    if(roles){
-       const foundRoles = await Role.find({name: {$in: roles }})
-       newUser.roles = foundRoles.map(role => role._id)
-    }else{
-       const role = await Role.findOne({name: "user"}) 
-       newUser.roles =[role._id];
-    }
+  const token = jwt.sign({ id: savedUser._id }, config.SECRET, {
+    expiresIn: 86400, //  <= segundos
+  });
 
-    const savedUser = await newUser.save();
-    console.log(savedUser)
+  res.status(200).json({ token });
+};
 
-    const token = jwt.sign({id: savedUser._id}, config.SECRET, {
-        expiresIn: 86400 //  <= segundos
-    })
+export const signIn = async (req, res) => {
+  const userFound = await User.findOne({ email: req.body.email });
 
-    res.status(200).json({token})
+  if (!userFound) return res.status(400).json({ message: "User not found" });
 
+  const matchPassword = await User.comparePassword(
+    req.body.password,
+    userFound.password
+  );
 
-}
+  if (!matchPassword)
+    return res.status(401).json({ token: null, message: "Invalid password" });
 
-export const signIn = async (req, res) =>{
-   
-    const userFound = await User.findOne({email: req.body.email})
-    
-    if(!userFound) return res.status(400).json({message: "User not found"})
-    
-    const matchPassword = await User.comparePassword(req.body.password, userFound.password)
+  const token = jwt.sign({ id: userFound._id }, config.SECRET, {
+    expiresIn: 86400,
+  });
 
-    if(!matchPassword) return res.status(401).json({token:null, message:"Invalid password"})
+  res.status(200).json({ userFound, token });
+  console.log(userFound);
+};
 
-    const token =jwt.sign({id: userFound._id}, config.SECRET,{
-        expiresIn: 86400
-    })
-    
+export const forgotpassword = async (req, res) => {
+  const userFound = await User.findOne({ email: req.body.email });
 
-    res.status(200).json({userFound, token})
-    console.log(userFound);
+  if (!userFound) return res.status(400).json({ message: "User is required " });
 
-}
+  const message = "Revisa tu email para resetear tu contrase~a";
+  let verificationLink;
+  let emailStatus = "OK";
+
+  const userRepository = getRepository(Users);
+
+  let user = Users;
+
+  try {
+    user = await userRepository.findOneOrFail({ where: { email } });
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      config.SECRET,
+      { expiresIn: "10m" }
+    );
+    verificationLink = `http://localhost:3000/new-password/${token}`;
+    user.resetToken = token;
+  } catch (error) {
+    return res.json({ message });
+  }
+
+  // TODO: Send Email
+  try {
+  } catch (error) {
+    return res.status(400).json({ messsage: "Algunos errores" });
+  }
+
+  try {
+    await userRepository.save(user);
+  } catch (error) {
+    emailStatus = error;
+    return res.status(400).json({ messsage: "Algunos errores" });
+  }
+};
