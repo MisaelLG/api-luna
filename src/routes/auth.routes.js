@@ -7,6 +7,4 @@ router.post("/signup", authCrtl.signUp);
 
 router.post("/signin", authCrtl.signIn);
 
-router.post("/forgot-password", authCrtl.forgotpassword);
-
 export default router;

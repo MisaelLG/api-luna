@@ -7,13 +7,13 @@ import { createRoles } from "./libs/initialSetup.js";
 import contactsRoutes from "./routes/contacts.routes.js";
 import authRutes from "./routes/auth.routes.js";
 import orderRoutes from "./routes/order.routes.js";
+import resetRoutes from "./routes/reset.routes.js";
 
 const app = express();
 createRoles();
 
 //Settings
-app.set('view engine', 'ejs');
-
+app.set("view engine", "ejs");
 
 //Middlewares
 app.use(morgan("dev"));
@@ -22,9 +22,10 @@ app.use(express.json());
 
 //Routes
 app.get("/", (req, res) => {
-  res.render('index');
+  res.render("index");
 });
 app.use("/api/contacts", contactsRoutes);
 app.use("/api/auth", authRutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/password/", resetRoutes);
 export default app;
