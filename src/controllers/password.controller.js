@@ -28,7 +28,7 @@ export const forgot = async (req, res, next) => {
   console.log(link);
   const send = await transporter
     .sendMail({
-      from: '"forgot-password 👻" <misael.leal.goncalves90@gmail.com>', // sender address
+      from: '"forgot-password 🔐" <misael.leal.goncalves90@gmail.com>', // sender address
       to: userFound.email, // list of receivers
       subject: "forgot-password", // Subject line
       html: `<b>Este es el link para restablecer su contraseña</b>
@@ -114,7 +114,7 @@ export const resetpost = async (req, res, next) => {
         new: true,
       }
     );
-    res.status(200).json(updatePassword);
+    res.status(200).render("exito", { email: userFound.email });
   } catch (error) {
     console.log(error.message);
     res.send(error.message);
